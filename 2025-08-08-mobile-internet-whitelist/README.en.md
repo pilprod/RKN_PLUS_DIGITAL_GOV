@@ -1,80 +1,63 @@
 # Analysis of the "CAPTCHA + DPI + Whitelist" Scheme in Mobile Networks
 
+[Source: «В России разработали техническую схему доступа к массовым сервисам при ограничениях», Интерфакс](https://www.interfax.ru/russia/1040184)
+
+
 ## 1. Attack vector changes but does not disappear
-- Restricting access to "foreign" SIM cards via a 5-hour wait is easy to bypass via:
-  - "Dead souls" — SIM cards registered to people who do not use them.
-  - SIM cards of Russians living abroad.
-  - Corporate APN/MPLS channels.
-  - M2M devices with permanent connectivity.
-- Infrastructure attacks (DDoS, botnets, drone control) can still be carried out via **legitimate channels**, including whitelisted services.
+- **Dead SIMs** — SIMs registered to inactive people can be handed over.
+- **Expat SIMs** — VPN/proxy back into the country.
+- **Corporate APN/MPLS** — separate routing, no retail whitelist.
+- **M2M devices** — kept online for ATMs, POS terminals; can be abused.
+- **Legit C2** — commands hidden in marketplace API or taxi chat.
 
-## 2. "Whitelist" = porous filter
-- To bypass, you only need **one allowed service** capable of tunneling traffic (API, uploaded content).
-- Known examples:
-  - CDN.
-  - Marketplaces.
-  - Maps and taxi services.
-- These platforms have already shown they can be used as data transport channels.
-
-## 3. CAPTCHA as authentication
-- CAPTCHA in mobile networks ≈ extra step in **captive portal** access.
-- Useful **for controlling the user**, but **not for stopping automation**.
-- For a DDoS bot or automated system, it is enough to:
-  - Pass the CAPTCHA manually once.
-  - Solve it automatically (modern ML models can solve most CAPTCHAs).
-
-## 4. Real consequences for citizens
-- Reduced speed and increased latency due to multi-layer DPI/firewall filtering.
-- In regions: "internet like via satellite in the 90s":
-  - High ping.
-  - Connection drops.
-  - Unstable VoIP and VPN.
-- Work tools and services outside the whitelist become unavailable:
-  - Freelancers.
-  - Remote workers.
-  - Developers.
-  - System administrators.
-
-## 5. Zero value for drone defense
-- Drone control can be done via:
-  - Satellite link.
-  - Whitelisted services.
-  - M2M.
-  - Preloaded scripts.
-- DDoS protection should be handled:
-  - At the network perimeter (scrubbing centers).
-  - Not via mass user restrictions.
+*Example:* encode commands in `order_comment` field of taxi API.
 
 ---
 
-# Possible reasons for implementation (even knowing it won't stop drones/DDoS)
+## 2. Whitelist = porous filter
+- **Semantic tunneling** — data inside images/videos.
+- **CDN blind spots** — thousands of allowed URIs.
+- **DoH/DoT inside domain** — DNS over HTTPS hidden in app traffic.
+- **Edge computing** — JS/Worker redirect.
+- **Sharding** — dynamic subdomains.
 
-## 1. Centralized traffic control
-- DPI and whitelisting allow the entire country to be switched to "restricted mode" **in one click**.
-- Operators will already have ready configs and filters.
+*Example:* encrypted `.zip` disguised as `.png` on marketplace CDN.
 
-## 2. Total identification
-- Every internet access:
-  - Via SIM tied to passport.
-  - Via CAPTCHA authentication (potentially linked to government services).
-- Removes "anonymous" users from the mobile network.
+---
 
-## 3. Political tool
-- In case of:
-  - Protests.
-  - Rallies.
-  - Mass actions.
-- Can leave access only to "approved" resources:
-  - Marketplaces.
-  - Taxi.
-  - Government services.
-- Social networks, messengers, VPNs — blocked instantly.
+## 3. CAPTCHA as authentication
+- **Captive portal** — redirect, token, IMSI in allowed list.
+- **Automation** — OCR+ML solvers, token reuse.
+- **Privileged bots** — bypass CAPTCHA.
+- **UX cost** — false positives.
 
-## 4. Financial interest
-- Possibility to sell access to "full internet":
-  - Via "approved" VPNs or proxies.
-- Operators can optimize networks for lower traffic volumes.
+*Example:* headless browser + 2Captcha solving.
 
-## 5. Preparation for Runet segmentation
-- Foundation for an isolated mode where all external traffic goes only through **government gateways**.
-- "Training" users to live in partial-block mode.
+---
+
+## 4. Real consequences for citizens
+- **Latency** — +50–200 ms.
+- **HTTP/3 issues** — downgraded to HTTP/1.1.
+- **False blocks** — apps break.
+- **MTU/MSS** — timeouts.
+- **Work tool outages** — GitLab, Jira.
+
+*Example:* regional devs lose GitHub Actions access.
+
+---
+
+## 5. Zero value against drones/DDoS
+- **Drones** — satellite, radio links, autonomous.
+- **DDoS** — handled at perimeter.
+- **Botnets** — commands via comments/media.
+
+*Example:* botnet C2 via product comments on whitelisted marketplace.
+
+---
+
+## Motives
+1. **Centralized control** — one flag toggles restricted mode.
+2. **Total identification** — SIM+ID+fingerprint.
+3. **Political tool** — protest-time cutoffs.
+4. **Financial** — sell full internet.
+5. **Runet segmentation** — user conditioning.
