@@ -5,16 +5,16 @@
 ---
 
 ## 📌 Introduction
-The "CAPTCHA + DPI + Whitelist" scheme is a method of managing internet access under restrictions.  
+The "CAPTCHA + DPI + Whitelist" scheme is a method for managing internet access under restrictions.  
 **Officially stated goal:** to ensure access to "important" services (banks, government services, delivery) even during blockages.  
-**Reality:** technical vulnerabilities, possibilities for circumvention, and significant degradation of internet quality.
+**Reality:** technical vulnerabilities, circumvention possibilities, and significant degradation of internet quality.
 
 ---
 
 ## 1. The Attack Vector Changes but Does Not Disappear
 
 **How it works:**  
-- Upon network entry, some SIM cards (e.g., foreign ones) experience a delay ("cooldown") and are required to pass a CAPTCHA.
+- Upon network entry, some SIM cards (e.g., foreign ones) experience a delay ("cooldown") and must pass a CAPTCHA.  
 - Exceptions: corporate channels (APN/MPLS), M2M devices (ATMs, terminals).
 
 **Vulnerabilities:**
@@ -75,6 +75,9 @@ The "CAPTCHA + DPI + Whitelist" scheme is a method of managing internet access u
 - Release failures, downtime.
 - Problems with VoIP, VPN, and online conferences.
 
+**Real-world story:**  
+A company’s developer tried to push code via Git over HTTPS but faced repeated timeouts. The CI/CD pipeline failed, delaying releases. Switching to VPN was impossible due to whitelist restrictions, causing significant productivity loss.
+
 ---
 
 ## 5. Why This Does Not Protect Against Drones and DDoS
@@ -91,8 +94,20 @@ The "CAPTCHA + DPI + Whitelist" scheme is a method of managing internet access u
 ## 📉 Key Issue
 
 The internet in the 21st century is strategic infrastructure.  
-This scheme:
-- Does not solve the declared security tasks.
-- Degrades communication quality.
-- Creates prerequisites for full control and segmentation of the Runet.
+This scheme:  
+- Does not solve the declared security tasks.  
+- Degrades communication quality.  
+- Creates prerequisites for full control and segmentation of the Runet.  
 - Leads to turning mobile internet into a slow and unstable channel, reducing the efficiency of the economy, government, and communications.
+
+---
+
+## ⚠️ Network Degradation and Barriers to Import Substitution
+
+The scheme further complicates the implementation of import substitution and digital sovereignty policies by:
+
+- Limiting access to foreign cloud services and tools essential for development.
+- Forcing reliance on a narrow set of "approved" providers, often less efficient or innovative.
+- Increasing operational costs due to degraded network quality and additional administrative overhead.
+
+This approach risks isolating the Russian segment of the internet and hindering technological progress rather than securing it.
