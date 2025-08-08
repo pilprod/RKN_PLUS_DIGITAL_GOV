@@ -1,94 +1,98 @@
-# 🇬🇧 Analysis of the "CAPTCHA + DPI + Whitelist" Scheme in Mobile Networks
+# Analysis of the "CAPTCHA + DPI + Whitelist" Scheme in Mobile Networks
 
-[Source: "Russia develops technical scheme for access to mass services under restrictions", Interfax](https://www.interfax.ru/russia/1040184)
+[Source: "Russia has developed a technical scheme for access to mass services under restrictions", Interfax](https://www.interfax.ru/russia/1040184)
 
 ---
 
 ## 📌 Introduction
-The "CAPTCHA + DPI + Whitelist" scheme is a way to control internet access under restrictions.  
-**Official goal:** provide access to "important" services (banks, government portals, delivery) even during blocks.  
-**Reality:** technical vulnerabilities, easy bypass, and significant internet slowdown.
+The "CAPTCHA + DPI + Whitelist" scheme is a method of managing internet access under restrictions.  
+**Officially stated goal:** to ensure access to "important" services (banks, government services, delivery) even during blockages.  
+**Reality:** technical vulnerabilities, possibilities for circumvention, and significant degradation of internet quality.
 
 ---
 
-## 1. Attack vector changes but does not disappear
+## 1. The Attack Vector Changes but Does Not Disappear
 
-**How it works:**
-- Some SIM cards (e.g., foreign) face a "cooling-off" period and must solve a CAPTCHA.
+**How it works:**  
+- Upon network entry, some SIM cards (e.g., foreign ones) experience a delay ("cooldown") and are required to pass a CAPTCHA.
 - Exceptions: corporate channels (APN/MPLS), M2M devices (ATMs, terminals).
 
-## Vulnerabilities
+**Vulnerabilities:**
 
-- **Whitelisted services as a transport channel (primary vector):** Encrypted connections (TLS/QUIC) and the functionality of large platforms (CDNs, marketplaces, taxi apps) allow data transfer inside allowed traffic (JSON/media/WebSocket/edge functions).
+- **Whitelisted services as transport (main vector):** encrypted connections (TLS/QUIC) and functionalities of large platforms (CDN, marketplaces, taxi services) allow data transmission inside permitted traffic (JSON/media/WebSocket/edge functions).
 
-- **External (offshore) exits:** Proxies/servers outside the jurisdiction and networks of Russian operators are not subject to local whitelisting/CAPTCHA policies.
+- **External (offshore) exits:** proxies/servers outside the jurisdiction and networks of Russian operators are not subject to local whitelisting/CAPTCHA policies.
 
-- **Private corporate APNs / L3VPNs:** If the operator’s policy for them is different (more permissive, without general whitelisting), clients can bypass retail restrictions. Not universal — depends on configuration.
+- **Private corporate APN/L3VPN:** with different operator-level policies (softer, without general whitelisting) allow clients to bypass retail restrictions. Not universal — depends on configurations.
 
-- **Resold retail SIMs:** Used as “third-party hands” to access without personal restrictions; detectable via behavioral analysis and may be deactivated.
+- **Resold retail SIMs:** used as "foreign hands" to access without personal restrictions; detected by behavioral patterns and can be disabled.
 
-- **M2M/IoT profiles:** Often exempt from restrictions to ensure continuous operation of ATMs/terminals; useful only where access is not strictly segmented to specific hosts.
+- **M2M/IoT profiles:** often exempted to maintain continuity of ATMs/terminals; useful only where access is not strictly segmented to specific nodes.
+
+**Conclusion:** restrictions are easily bypassed, preserving channels for attacks (DDoS, botnet or drone control).
 
 ---
 
-## 2. Whitelist = porous filter
+## 2. The "Whitelist" is a Leaky Filter
 
-**What it is:** list of allowed domains/services.
+**What it is:** a list of allowed domains and services.
 
 **Vulnerabilities:**
-- **TLS/QUIC**: traffic is encrypted; DPI sees only domain (SNI).
-- **CDN**: one allowed CDN domain = thousands of data transfer paths.
-- **DoH/DoT**: DNS requests can be hidden inside allowed domains.
-- **Semantic tunneling**: data inside images, videos, text.
+- **TLS/QUIC:** traffic is encrypted, DPI sees only the domain (SNI), not the data.
+- **CDN:** one allowed CDN domain equals thousands of paths for data transfer.
+- **DoH/DoT:** DNS queries can be hidden inside allowed domains.
+- **Semantic tunneling:** data transfer inside images, videos, texts.
 
-**Example:** botnet receives commands through "comment" field in a whitelisted taxi service.
+**Example:** a botnet receives commands through the "comment" field in an allowed taxi service.
 
 ---
 
-## 3. CAPTCHA = control, not protection
+## 3. CAPTCHA — Control, Not Protection
 
-**What it is:** verification page (captive portal) before internet access.
+**What it is:** a blocking/unblocking mechanism implemented via a captive portal that requires user interaction to gain internet access. Unlike traditional CAPTCHA puzzles, this system controls access by presenting a verification page that must be completed to unlock connectivity.
 
 **Vulnerabilities:**
-- **ML solvers**: automated CAPTCHA recognition.
-- **Token reuse**: weak binding allows reuse on another device.
-- **Privileged service accounts**: bots/apps bypass CAPTCHA by design.
+- **ML solvers:** automatic recognition and solving of CAPTCHA challenges.
+- **Token reuse:** with weak binding, tokens can be reused on different devices or sessions.
+- **Privileged service accounts:** bots and applications that bypass CAPTCHA by design.
+- **Protocol knowledge exploitation:** if the unlocking protocol is known, it can be automated and replayed to bypass restrictions.
+- **Automated replay attacks:** repeated submission of unlock requests can circumvent the blocking mechanism without user interaction.
 
-**Conclusion:** weak against automated systems.
+**Conclusion:** protection is weak against automated systems and protocol-aware attackers, rendering the mechanism ineffective as a robust barrier.
 
 ---
 
-## 4. Impact on users and business
+## 4. Consequences for Users and Business
 
 **Technical effects:**
-- Increased latency (+50–200 ms).
+- Increased latency (ping +50–200 ms).
 - Jitter — unstable packet delay.
-- Slower speeds due to protocol downgrade (HTTP/3 → HTTP/1.1).
+- Speed drop due to protocol downgrades (HTTP/3 → HTTP/1.1).
 - Loading errors due to incomplete whitelist.
 
 **For business:**
-- No access to Git, CI/CD, cloud IDE if outside whitelist.
-- Release delays, downtime.
-- Issues with VoIP, VPN, online conferencing.
+- Inaccessibility of Git, CI/CD, cloud IDEs if they are outside the whitelist.
+- Release failures, downtime.
+- Problems with VoIP, VPN, and online conferences.
 
 ---
 
-## 5. Why it does not protect against drones or DDoS
+## 5. Why This Does Not Protect Against Drones and DDoS
 
 **Drones:**
-- Use satellite channels, radio links, autonomous missions.
+- Use satellite channels, radio links, autonomous scenarios.
 
 **DDoS:**
-- Mitigated at perimeter: scrubbing centers, Anycast, ISP filtering.
-- Mass user restriction does not reduce bot traffic.
+- Mitigated at the perimeter: scrubbing centers, Anycast, provider filtering.
+- Mass user restrictions do not reduce bot traffic.
 
 ---
 
-## 📉 Core issue
+## 📉 Key Issue
 
 The internet in the 21st century is strategic infrastructure.  
 This scheme:
-- Does not solve stated security goals.
-- Degrades connection quality.
-- Enables full control and Runet segmentation.
-- Risks turning mobile internet into a slow, unstable channel, harming the economy, governance, and communications.
+- Does not solve the declared security tasks.
+- Degrades communication quality.
+- Creates prerequisites for full control and segmentation of the Runet.
+- Leads to turning mobile internet into a slow and unstable channel, reducing the efficiency of the economy, government, and communications.
