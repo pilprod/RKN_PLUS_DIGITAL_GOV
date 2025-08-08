@@ -17,13 +17,17 @@ The "CAPTCHA + DPI + Whitelist" scheme is a way to control internet access under
 - Some SIM cards (e.g., foreign) face a "cooling-off" period and must solve a CAPTCHA.
 - Exceptions: corporate channels (APN/MPLS), M2M devices (ATMs, terminals).
 
-**Vulnerabilities:**
-- **Dead SIMs**: registered but unused SIMs can be handed over.
-- **Expat SIMs**: VPN/proxy from abroad.
-- **Corporate APN/MPLS**: separate routing without DPI filtering.
-- **M2M**: long-lived sessions without restrictions.
+## Vulnerabilities
 
-**Conclusion:** easy to bypass while keeping channels open for DDoS, botnet or drone control.
+- **Whitelisted services as a transport channel (primary vector):** Encrypted connections (TLS/QUIC) and the functionality of large platforms (CDNs, marketplaces, taxi apps) allow data transfer inside allowed traffic (JSON/media/WebSocket/edge functions).
+
+- **External (offshore) exits:** Proxies/servers outside the jurisdiction and networks of Russian operators are not subject to local whitelisting/CAPTCHA policies.
+
+- **Private corporate APNs / L3VPNs:** If the operator’s policy for them is different (more permissive, without general whitelisting), clients can bypass retail restrictions. Not universal — depends on configuration.
+
+- **Resold retail SIMs:** Used as “third-party hands” to access without personal restrictions; detectable via behavioral analysis and may be deactivated.
+
+- **M2M/IoT profiles:** Often exempt from restrictions to ensure continuous operation of ATMs/terminals; useful only where access is not strictly segmented to specific hosts.
 
 ---
 
