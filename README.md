@@ -4,6 +4,10 @@
 
 _Подсказка: если вы торопитесь, читайте `summary.md`; для деталей — `README.md`; для английской версии — `README.en.md`._
 
+## Topics
+
+- 2025‑08‑08 | **Как новая система блокировок в интернете влияет на пользователей в России** ([RU](./2025-08-08-mobile-internet-whitelist/README.md) · [EN](./2025-08-08-mobile-internet-whitelist/README.en.md))
+
 ## Structure
 - Each topic in its own folder: `YYYY-MM-DD-short-title`.
 - Inside:
@@ -13,11 +17,6 @@ _Подсказка: если вы торопитесь, читайте `summary
   - `summary.en.md` — short version in English.
   - `diagram.svg` — visualization of attack vectors and bypass methods.
   - `meta.json` — metadata.
-
-## Topics
-
-
-- 2025‑08‑08 | **Как новая система блокировок в интернете влияет на пользователей в России** ([RU](./2025-08-08-mobile-internet-whitelist/README.md) · [EN](./2025-08-08-mobile-internet-whitelist/README.en.md))
 
 ## License
 MIT — материалы можно свободно распространять с указанием авторства.
